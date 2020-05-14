@@ -31,15 +31,13 @@ class StudyServiceTest {
         member.setId(1L);
         member.setEmail("keesun@email.com");
 
-//        when(memberService.findById(1L)).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
-        when(memberService.findById(anyLong())).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
-
-        Study study = new Study(10, "java");
-
-        Optional<Member> findById = memberService.findById(1L);
-        assertEquals("keesun@email.com", findById.get().getEmail());
-//        studyService.createNewStudy(1L, study);
+//        when(memberService.findById(1L)).thenReturn(Optional.of(member));//리턴 타입이 있는 메소드에 대해서 리턴값을 Stubbing 하는 것 말고도 예외 Stubbing할 수도 있다.
+//        when(memberService.findById(1L)).thenThrow(new RuntimeException());//리턴 타입이 있는 메소드에 대해서 예외를 던지도록 Stubbing할 때는 thenThrow
+        doThrow(new IllegalArgumentException()).when(memberService).validate(1L);//리턴 타입이 없을 때 특정 메소드가 예외를 던지도록 Stubbing할 때는 doThrow
 
 
+        assertThrows(IllegalArgumentException.class, ()-> {
+            memberService.validate(1L);
+        });
     }
 }
