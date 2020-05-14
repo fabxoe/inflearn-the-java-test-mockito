@@ -22,17 +22,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class StudyServiceTest {
 
-    @Mock
-    MemberService memberService;
-
-    @Mock
-    StudyRepository studyRepository;
-
     @Test
-    void createStudyService() {
-//        MemberService memberService = mock(MemberService.class);
-//
-//        StudyRepository studyRepository = mock(StudyRepository.class);
+    void createStudyService(@Mock MemberService memberService, @Mock StudyRepository studyRepository) {
 
         StudyService studyService = new StudyService(memberService, studyRepository);
 
