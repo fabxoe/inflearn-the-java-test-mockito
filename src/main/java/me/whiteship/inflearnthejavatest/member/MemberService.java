@@ -8,4 +8,6 @@ public interface MemberService {
 //    void validate(Long memberId) throws InvalidMemberException;
 
     Optional<Member> findById(Long memberId);
+
+    void validate(Long memberId);
 }
