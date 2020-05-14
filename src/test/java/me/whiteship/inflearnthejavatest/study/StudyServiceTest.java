@@ -24,16 +24,22 @@ class StudyServiceTest {
 
     @Test
     void createStudyService(@Mock MemberService memberService, @Mock StudyRepository studyRepository) {
+        StudyService studyService = new StudyService(memberService, studyRepository);//setter에 사용하거나 필드에 직접 써도 되지만 여기선 생성자에 사용하였다.
+        assertNotNull(studyService);
+
         Member member = new Member();
         member.setId(1L);
         member.setEmail("keesun@email.com");
 
-        when(memberService.findById(1L)).thenReturn(Optional.of(member));//목 객체를 Stubbing했다.
+//        when(memberService.findById(1L)).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
+        when(memberService.findById(any())).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
 
+        Study study = new Study(10, "java");
 
+        Optional<Member> findById = memberService.findById(1L);
+        assertEquals("keesun@email.com", findById.get().getEmail());
+//        studyService.createNewStudy(1L, study);
 
-        StudyService studyService = new StudyService(memberService, studyRepository);//setter에 사용하거나 필드에 직접 써도 되지만 여기선 생성자에 사용하였다.
-        assertNotNull(studyService);
 
     }
 }
