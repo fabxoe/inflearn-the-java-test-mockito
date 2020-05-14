@@ -38,13 +38,13 @@ class StudyServiceTest {
                 .thenReturn(Optional.empty());
 
 
-        Optional<Member> byId = memberService.findById(1L);
+        Optional<Member> byId = memberService.findById(1L);//첫번째 호출
         assertEquals("keesun@email.com", byId.get().getEmail());
 
         assertThrows(RuntimeException.class, () -> {
-            memberService.findById(2L);
+            memberService.findById(2L);//두번째 호출
         });
 
-        assertEquals(Optional.empty(), memberService.findById(3L));
+        assertEquals(Optional.empty(), memberService.findById(3L)); //세번째 호출
     }
 }
