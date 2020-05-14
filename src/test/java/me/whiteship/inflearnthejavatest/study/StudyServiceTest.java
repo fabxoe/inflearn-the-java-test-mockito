@@ -32,7 +32,7 @@ class StudyServiceTest {
         member.setEmail("keesun@email.com");
 
 //        when(memberService.findById(1L)).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
-        when(memberService.findById(any())).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
+        when(memberService.findById(anyLong())).thenReturn(Optional.of(member));//목 객체를 가지고 Stubbing했다. -> 실제 소스에서 Stubbing을 따라서 동작한다.
 
         Study study = new Study(10, "java");
 
