@@ -31,13 +31,20 @@ class StudyServiceTest {
         member.setId(1L);
         member.setEmail("keesun@email.com");
 
-//        when(memberService.findById(1L)).thenReturn(Optional.of(member));//리턴 타입이 있는 메소드에 대해서 리턴값을 Stubbing 하는 것 말고도 예외 Stubbing할 수도 있다.
-//        when(memberService.findById(1L)).thenThrow(new RuntimeException());//리턴 타입이 있는 메소드에 대해서 예외를 던지도록 Stubbing할 때는 thenThrow
-        doThrow(new IllegalArgumentException()).when(memberService).validate(1L);//리턴 타입이 없을 때 특정 메소드가 예외를 던지도록 Stubbing할 때는 doThrow
+        //호출횟수마다 다르게 동작하도록 Stubbing할 수도 있다.
+        when(memberService.findById(any()))
+                .thenReturn(Optional.of(member))
+                .thenThrow(new RuntimeException())
+                .thenReturn(Optional.empty());
 
 
-        assertThrows(IllegalArgumentException.class, ()-> {
-            memberService.validate(1L);
+        Optional<Member> byId = memberService.findById(1L);
+        assertEquals("keesun@email.com", byId.get().getEmail());
+
+        assertThrows(RuntimeException.class, () -> {
+            memberService.findById(2L);
         });
+
+        assertEquals(Optional.empty(), memberService.findById(3L));
     }
 }
